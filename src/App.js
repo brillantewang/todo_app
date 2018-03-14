@@ -8,7 +8,6 @@ class App extends Component {
     super();
 
     this.state = {
-      todos: [],
       currentTodo: ""
     }
 
@@ -18,15 +17,13 @@ class App extends Component {
 
   handleDelete(i) {
     return () => {
-      let newTodos = this.state.todos.slice(0, i).concat(this.state.todos.slice(i + 1));
-      this.setState({ todos: newTodos })
+      this.props.removeTodo(i);
     }
   }
 
   handleClick() {
-    let newTodos = this.state.todos.concat([this.state.currentTodo]);
+    this.props.addTodo(this.state.currentTodo);
     this.setState({
-      todos: newTodos,
       currentTodo: ""
     });
   }
@@ -36,7 +33,7 @@ class App extends Component {
   }
 
   render() {
-    let todoItems = this.state.todos.map((todo, i) => {
+    let todoItems = this.props.todos.map((todo, i) => {
       return <SingleTodo key={i} todo={todo} delete={this.handleDelete(i)}/>
     })
 
